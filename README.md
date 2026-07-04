@@ -20,7 +20,7 @@
 
 ### 🔧 대표 트러블슈팅 — 이미지 처리 CPU 부하를 서버리스로 오프로딩
 - **문제:** 다중 이미지 업로드 시, 프론트(클라이언트) CPU에서 리사이징하니 저사양 기기·다중 이미지에서 브라우저가 느려지고 프리즈되는 현상.
-- **해결:** 리사이징 연산을 **AWS Lambda(서버리스)로 오프로딩** → **Azure Blob Storage**에 저장하고 **WebP**로 변환·최적화. 프론트 CPU 연산과 앱 서버 부하를 함께 분리.
+- **해결:** 리사이징 연산을 **Azure Functions(서버리스)로 오프로딩** → **Azure Blob Storage**에 저장하고 **WebP**로 변환·최적화. 프론트 CPU 연산과 앱 서버 부하를 함께 분리(연산·저장 모두 Azure로 통일).
 - **효과:** 이미지 처리 체감 시간 **약 3.2s → 0.8s (~75%↓)**, 저사양 모바일 UI 프리즈 제거, 서버리스 처리 **가용률 ~99.9%**.
   <sub>* 성능 수치는 개선 근사치입니다.</sub>
 
@@ -45,7 +45,7 @@
 - Spring Boot 3.5 · Java 17 · Maven
 - Spring Data JPA · Spring Security · JWT (jjwt)
 - PostgreSQL · Spring AOP · Actuator
-- **AWS Lambda** (서버리스 이미지 리사이징)
+- **Azure Functions** (서버리스 이미지 리사이징)
 - Azure Blob Storage (이미지 저장) · Thumbnailator / WebP (이미지 최적화)
 
 **Infra / 운영**
