@@ -23,9 +23,8 @@
 - **설계(낙관적 업로드):**
   1. **원본을 압축 없이 즉시 업로드** → 사용자는 곧바로 이미지 확인 (대기 제거)
   2. **Azure Functions가 백그라운드에서 비동기 압축·리사이징(WebP)**
-  3. 압축본이 올라오면 **DB의 이미지 경로를 압축본으로 교체(swap)**
-  4. 원본은 **cold 스토리지로 이동** → 저장 비용 절감
-- **효과:** 이미지 처리 체감 **6~7초 → 0.2~0.3초**, 이미지 용량 **2.6MB → 344KB (~8배↓)**.
+  3. **압축이 끝나면 Azure Functions가 직접 DB 이미지 경로를 압축본으로 교체(swap)** → 이후부터 사용자는 압축본을 봄
+- **효과:** 이미지 처리 체감 **6~7초 → 0.2~0.3초**, 이미지 용량 **2.6MB → 344KB (~8배↓)**. **1TB 스토리지 기준** 게시글당 업로드 상한 **200MB** 정책.
 
 ### 주요 기여
 - **인증 / 권한 (BE 주도)** — 참여자 / 기록자(RECORDER) / 관리자 3단계 역할. Spring Security + JWT(Stateless)로 API 레벨 접근 제어, NextAuth 세션과 연동
@@ -49,7 +48,7 @@
 - Spring Data JPA · Spring Security · JWT (jjwt)
 - PostgreSQL · Spring AOP · Actuator
 - **Azure Functions** (서버리스 비동기 이미지 압축)
-- Azure Blob Storage (hot/cold 계층 저장) · Thumbnailator / WebP (이미지 최적화)
+- Azure Blob Storage (이미지 저장) · Thumbnailator / WebP (이미지 최적화)
 
 **Infra / 운영**
 - 도메인 배포: oceankeeper.org
